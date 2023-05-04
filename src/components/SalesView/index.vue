@@ -1,7 +1,6 @@
 <template>
   <div class="SalesView">
     SalesView
-    <!-- <v-chart ref="chart" :option="option"/> -->
   </div>
 </template>
 
@@ -10,16 +9,7 @@ export default {
   name: 'SalesView',
   data () {
     return {
-      option: {
-        xAxis: {
-          type: 'category'
-        },
-        yAxis: {},
-        series: [{
-          type: 'line',
-          data: [100, 200, 300]
-        }]
-      }
+
     }
   }
 }
@@ -27,9 +17,6 @@ export default {
 
 <style lang="scss" scoped>
 .SalesView{
-  .echarts{
-    width: 600px;
-    height: 300px;
-  }
+
 }
 </style>
