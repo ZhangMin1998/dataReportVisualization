@@ -2,9 +2,8 @@
   <div class="TodayUsers">
     <CommonCard title="今日交易用户数" value="81,014">
       <template>
-        <div id="today-users-chart" :style="{ width: '100%', height: '100%' }">
-
-        </div>
+        <v-chart :option="getOptions()"></v-chart>
+        <!-- <div id="today-users-chart" :style="{ width: '100%', height: '100%' }"></div> -->
       </template>
       <template #footer>
         <span>退货率 </span>
@@ -53,10 +52,15 @@ export default {
     }
   },
   mounted () {
-    const chartDom = document.getElementById('today-users-chart')
-    console.log(this.$echarts)
-    const chart = this.$echarts.init(chartDom)
-    chart.setOption(this.option)
+    // const chartDom = document.getElementById('today-users-chart')
+    // console.log(this.$echarts)
+    // const chart = this.$echarts.init(chartDom)
+    // chart.setOption(this.option)
+  },
+  methods: {
+    getOptions () {
+      return this.option
+    }
   }
 }
 </script>

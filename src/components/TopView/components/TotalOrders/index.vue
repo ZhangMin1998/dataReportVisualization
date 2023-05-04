@@ -2,9 +2,8 @@
   <div class="TotalOrders">
     <CommonCard title="累计订单量" value="2,157,420">
       <template>
-        <div id="total-order-chart" :style="{ width: '100%', height: '100%' }">
-
-        </div>
+        <v-chart :option="getOptions()"></v-chart>
+        <!-- <div id="total-order-chart" :style="{ width: '100%', height: '100%' }"></div> -->
       </template>
       <template #footer>
         <span>昨日订单量 </span>
@@ -59,10 +58,14 @@ export default {
     }
   },
   mounted () {
-    const chartDom = document.getElementById('total-order-chart')
-    console.log(this.$echarts)
-    const chart = this.$echarts.init(chartDom)
-    chart.setOption(this.option)
+    // const chartDom = document.getElementById('total-order-chart')
+    // const chart = this.$echarts.init(chartDom)
+    // chart.setOption(this.option)
+  },
+  methods: {
+    getOptions () {
+      return this.option
+    }
   }
 }
 </script>

@@ -2,7 +2,8 @@
   <div class="TotalUsers">
     <CommonCard title="累计用户数" value="1,087,503">
       <template>
-        <div id="total-users-chart" :style="{ width: '100%', height: '100%' }"></div>
+        <v-chart :option="getOptions()"></v-chart>
+        <!-- <div id="total-users-chart" :style="{ width: '100%', height: '100%' }"></div> -->
       </template>
       <template #footer>
         <div class="total-users-footer">
@@ -103,9 +104,14 @@ export default {
     }
   },
   mounted () {
-    const chartDom = document.getElementById('total-users-chart')
-    const chart = this.$echarts.init(chartDom)
-    chart.setOption(this.option)
+    // const chartDom = document.getElementById('total-users-chart')
+    // const chart = this.$echarts.init(chartDom)
+    // chart.setOption(this.option)
+  },
+  methods: {
+    getOptions () {
+      return this.option
+    }
   }
 }
 </script>
