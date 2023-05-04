@@ -1,6 +1,6 @@
 <template>
   <div class="SalesView">
-    SalesView6
+    SalesView
     <!-- <v-chart ref="chart" :option="option"/> -->
   </div>
 </template>
