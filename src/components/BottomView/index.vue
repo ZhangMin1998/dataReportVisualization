@@ -8,22 +8,33 @@
         </template>
         <template>
           <div class="chart-wrapper">
-            <div class="chart">
-              <div class="chart-title">搜索用户数</div>
-              <div class="chart-data">93,634</div>
-              <v-chart :option="searchUserOption"></v-chart>
+            <div class="chart-inner">
+              <div class="chart">
+                <div class="chart-title">搜索用户数</div>
+                <div class="chart-data">93,634</div>
+                <v-chart :option="searchUserOption"></v-chart>
+              </div>
+              <div class="chart">
+                <div class="chart-title">搜索量</div>
+                <div class="chart-data">198,782</div>
+                <v-chart :option="searchNumberOption"></v-chart>
+              </div>
             </div>
-            <div class="chart">
-              <div class="chart-title">搜索量</div>
-              <div class="chart-data">198,782</div>
-              <v-chart :option="searchNumberOption"></v-chart>
+            <div class="table-wrapper">
+              <el-table :data="tableData">
+                <el-table-column prop="rank" label="排名" width="180" />
+                <el-table-column prop="keyword" label="关键词" width="180" />
+                <el-table-column prop="count" label="总搜索量" />
+                <el-table-column prop="users" label="搜索用户数" />
+              </el-table>
+              <el-pagination
+                layout="prev, pager, next"
+                :total="100"
+                :page-size="4"
+                background
+                @current-change="onPageChange"
+              />
             </div>
-          </div>
-          <div class="table-wrapper">
-            <el-table :data="tableData">
-              <el-table-column />
-            </el-table>
-            <el-pagination />
           </div>
         </template>
       </el-card>
@@ -58,16 +69,80 @@ export default {
   data () {
     return {
       searchUserOption: {
-
+        xAxis: {
+          type: 'category',
+          boundaryGap: false
+        },
+        yAxis: {
+          show: false
+        },
+        series: [{
+          type: 'line',
+          areaStyle: {
+            color: 'rgba(95, 187, 255, 0.5)'
+          },
+          lineStyle: {
+            // width: 0
+            color: 'rgb(95, 187, 255)'
+          },
+          itemStyle: {
+            opacity: 0
+          },
+          smooth: true,
+          data: [100, 150, 200, 250, 200, 150, 100, 50, 100, 150]
+        }],
+        grid: {
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0
+        }
       },
       searchNumberOption: {
-
+        xAxis: {
+          type: 'category',
+          boundaryGap: false
+        },
+        yAxis: {
+          show: false
+        },
+        series: [{
+          type: 'line',
+          areaStyle: {
+            color: 'rgba(95, 187, 255, 0.5)'
+          },
+          lineStyle: {
+            // width: 0
+            color: 'rgb(95, 187, 255)'
+          },
+          itemStyle: {
+            opacity: 0
+          },
+          smooth: true,
+          data: [100, 150, 200, 250, 200, 150, 100, 50, 100, 150]
+        }],
+        grid: {
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0
+        }
       },
-      tableData: [],
+      tableData: [
+        { id: 1, rank: 1, keyword: '深圳', count: 100, users: 90, range: '96%' },
+        { id: 2, rank: 2, keyword: '广州', count: 100, users: 90, range: '96%' },
+        { id: 3, rank: 3, keyword: '赣州', count: 100, users: 90, range: '96%' },
+        { id: 4, rank: 4, keyword: '南阳', count: 100, users: 90, range: '96%' }
+      ],
       redioSelect: '品类',
       categoryOption: {
 
       }
+    }
+  },
+  methods: {
+    onPageChange (page) {
+      console.log(page)
     }
   }
 }
@@ -104,12 +179,39 @@ export default {
       }
     }
     .chart-wrapper{
-      .chart{
-        .chart-title{
-
+      display: flex;
+      flex-direction: column;
+      height: 452px;
+      .chart-inner{
+        display: flex;
+        padding: 0 10px;
+        margin-top: 20px;
+        .chart{
+          flex: 1;
+          padding: 0 10px;
+          .chart-title{
+            color: #999;
+            font-size: 14px;
+          }
+          .chart-data{
+            font-size: 22px;
+            color: #333;
+            font-weight: 500;
+            letter-spacing: 2px;
+          }
+          .echarts{
+            height: 50px;
+          }
         }
-        .chart-data{
-
+      }
+      .table-wrapper{
+        flex: 1;
+        margin-top: 20px;
+        padding: 0 20px 20px;
+        .el-pagination{
+          display: flex;
+          justify-content: flex-end;
+          margin-top: 15px;
         }
       }
     }
