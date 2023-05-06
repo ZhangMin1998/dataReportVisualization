@@ -4,6 +4,7 @@ import router from './router'
 import store from './store'
 import './style/index.css'
 import './plugins/element.js'
+// import './plugins/vcharts.js' // v-charts
 import * as eCharts from 'echarts'
 
 import VueECharts from 'vue-echarts'
