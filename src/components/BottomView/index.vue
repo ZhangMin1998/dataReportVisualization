@@ -55,7 +55,9 @@
           </div>
         </template>
         <template>
-          <v-chart :option="categoryOption"></v-chart>
+          <div class="chart-wrapper">
+            <v-chart :option="categoryOption" :dark="true"></v-chart>
+          </div>
         </template>
       </el-card>
     </div>
@@ -135,14 +137,129 @@ export default {
         { id: 4, rank: 4, keyword: '南阳', count: 100, users: 90, range: '96%' }
       ],
       redioSelect: '品类',
-      categoryOption: {
-
-      }
+      categoryOption: {}
     }
+  },
+  mounted () {
+    this.renderPieChart()
   },
   methods: {
     onPageChange (page) {
       console.log(page)
+    },
+    renderPieChart () {
+      const mockData = [
+        {
+          name: '粉面粥店 | 15.40%',
+          lengendname: '粉面粥店',
+          value: 67,
+          percent: '15.40%',
+          itemStyle: {
+            color: '#e7e702'
+          }
+        },
+        {
+          name: '简餐便当 | 22.30%',
+          lengendname: '简餐便当',
+          value: 97,
+          percent: '22.30%',
+          itemStyle: {
+            color: '#8d7fec'
+          }
+        },
+        {
+          name: '汉堡披萨 | 21.315%',
+          lengendname: '汉堡披萨',
+          value: 92,
+          percent: '21.15%',
+          itemStyle: {
+            color: '#5085f2'
+          }
+        }
+      ]
+      this.categoryOption = {
+        title: [
+          {
+            text: '品类分布',
+            textStyle: {
+              fontSize: 14,
+              color: '#666'
+            },
+            left: 20,
+            top: 20
+          },
+          {
+            text: '累计订单量',
+            subtext: '320', // 副标题
+            x: '34.5%',
+            y: '42.5%',
+            textAlign: 'center',
+            textStyle: {
+              fontSize: 14,
+              color: '#999'
+            },
+            subtextStyle: {
+              fontSize: 28,
+              color: '#333'
+            }
+          }
+        ],
+        legend: {
+          type: 'scroll',
+          height: 250,
+          top: 'middle',
+          left: '70%',
+          orient: 'vertical'
+        },
+        tooltip: {
+          show: true,
+          trigger: 'item',
+          textStyle: {
+            color: '#fff'
+          },
+          // borderColor: 'rgba(50,50,50,0.7)',
+          backgroundColor: 'rgba(50,50,50,0.7)',
+          formatter: function (params) {
+            const str = params.seriesName
+            return str + '<br/>' + params.marker +
+             params.data.lengendname + '<br/>' +
+             '数量：' + params.data.value + '<br/>' +
+             '占比：' + params.data.percent
+          }
+        },
+        series: [
+          {
+            name: '品类分布',
+            type: 'pie',
+            data: mockData,
+            radius: ['45%', '60%'], // 内外环
+            center: ['35%', '50%'], // 圆心位置
+            label: {
+              normal: {
+                show: true,
+                position: 'outside', // outside/inside/center
+                formatter: function (params) {
+                  // return `${params.data.lengendname} | ${params.data.percent}`
+                  return params.data.lengendname
+                }
+              }
+            },
+            labelLine: {
+              normal: {
+                length: 5, // 靠近图
+                length2: 3,
+                smooth: true
+              }
+            },
+            clockwise: true, // 数据顺序是否按顺时针排列
+            itemStyle: {
+              // borderRadius: 10,
+              borderColor: '#fff',
+              borderWidth: 4
+            }
+          }
+        ]
+      }
     }
   }
 }
