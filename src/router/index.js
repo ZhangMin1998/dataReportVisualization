@@ -14,6 +14,11 @@ const routes = [
     path: '/bmap',
     name: 'BMap',
     component: () => import('../views/Bmap.vue')
+  },
+  {
+    path: '/liquidFill',
+    name: 'LiquidFill',
+    component: () => import('../views/LiquidFill.vue')
   }
 ]
 

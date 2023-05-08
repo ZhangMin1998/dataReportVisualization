@@ -9,7 +9,9 @@
           <div class="title">用户月同比增长</div>
         </template>
         <template>
-          <div class="chart-wrapper">水球图</div>
+          <div class="chart-wrapper">
+            <LiquidFill></LiquidFill>
+          </div>
         </template>
       </el-card>
       <el-card shadow="hover">
@@ -26,10 +28,13 @@
 
 <script>
 import BMapScatter from './components/BMapScatter.vue'
+import LiquidFill from '@/views/LiquidFill.vue'
+
 export default {
   name: 'MapView',
   components: {
-    BMapScatter
+    BMapScatter,
+    LiquidFill
   },
   data () {
     return {
@@ -66,6 +71,7 @@ export default {
       padding: 0 0 0 20px;
     }
     .chart-wrapper{
+      width: 100%;
       width: 100%;
       height: 190px;
     }

@@ -592,7 +592,7 @@ export default {
           return val[2] / 10
         },
         itemStyle: {
-          color: 'purple',
+          color: 'red', // purple
           shadowBlur: 10,
           shadowColor: '#333'
         },
