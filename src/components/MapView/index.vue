@@ -19,7 +19,9 @@
           <div class="title">热门搜索</div>
         </template>
         <template>
-          <div class="chart-wrapper">词云图</div>
+          <div class="chart-wrapper">
+            <WordCloud></WordCloud>
+          </div>
         </template>
       </el-card>
     </div>
@@ -29,12 +31,14 @@
 <script>
 import BMapScatter from './components/BMapScatter.vue'
 import LiquidFill from '@/views/LiquidFill.vue'
+import WordCloud from '@/views/WordCloud.vue'
 
 export default {
   name: 'MapView',
   components: {
     BMapScatter,
-    LiquidFill
+    LiquidFill,
+    WordCloud
   },
   data () {
     return {

@@ -19,6 +19,11 @@ const routes = [
     path: '/liquidFill',
     name: 'LiquidFill',
     component: () => import('../views/LiquidFill.vue')
+  },
+  {
+    path: '/wordCloud',
+    name: 'WordCloud',
+    component: () => import('../views/WordCloud.vue')
   }
 ]
 
