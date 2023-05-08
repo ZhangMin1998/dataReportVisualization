@@ -13,6 +13,9 @@ import SalesView from '../components/SalesView'
 import BottomView from '../components/BottomView'
 import MapView from '../components/MapView'
 
+// eslint-disable-next-line
+import { getTest, postTest } from '@/api/index'
+
 export default {
   name: 'HomeView',
   components: {
@@ -20,6 +23,19 @@ export default {
     SalesView,
     BottomView,
     MapView
+  },
+  data () {
+    return {
+
+    }
+  },
+  mounted () {
+    getTest({ a: 1 }).then(res => {
+      console.log(res)
+    }).catch(err => {
+      console.log(err)
+    })
+    // postTest({ a: 1 })
   }
 }
 </script>
