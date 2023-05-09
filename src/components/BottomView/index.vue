@@ -11,26 +11,27 @@
             <div class="chart-inner">
               <div class="chart">
                 <div class="chart-title">搜索用户数</div>
-                <div class="chart-data">93,634</div>
+                <div class="chart-data">{{ userCount }}</div>
                 <v-chart :option="searchUserOption"></v-chart>
               </div>
               <div class="chart">
                 <div class="chart-title">搜索量</div>
-                <div class="chart-data">198,782</div>
+                <div class="chart-data">{{ searchCount }}</div>
                 <v-chart :option="searchNumberOption"></v-chart>
               </div>
             </div>
             <div class="table-wrapper">
               <el-table :data="tableData">
-                <el-table-column prop="rank" label="排名" width="180" />
-                <el-table-column prop="keyword" label="关键词" width="180" />
+                <el-table-column prop="rank" label="排名" width="150" />
+                <el-table-column prop="keyword" label="关键词" width="150" />
                 <el-table-column prop="count" label="总搜索量" />
                 <el-table-column prop="users" label="搜索用户数" />
+                <el-table-column prop="range" label="搜索占比" />
               </el-table>
               <el-pagination
                 layout="prev, pager, next"
-                :total="100"
-                :page-size="4"
+                :total="total"
+                :page-size="pageSize"
                 background
                 @current-change="onPageChange"
               />
@@ -65,87 +66,68 @@
 </template>
 
 <script>
+import commonData from '@/mixins/commonData'
 
 export default {
   name: 'BottomView',
+  mixins: [commonData],
   data () {
     return {
-      searchUserOption: {
-        xAxis: {
-          type: 'category',
-          boundaryGap: false
-        },
-        yAxis: {
-          show: false
-        },
-        series: [{
-          type: 'line',
-          areaStyle: {
-            color: 'rgba(95, 187, 255, 0.5)'
-          },
-          lineStyle: {
-            // width: 0
-            color: 'rgb(95, 187, 255)'
-          },
-          itemStyle: {
-            opacity: 0
-          },
-          smooth: true,
-          data: [100, 150, 200, 250, 200, 150, 100, 50, 100, 150]
-        }],
-        grid: {
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0
-        }
-      },
-      searchNumberOption: {
-        xAxis: {
-          type: 'category',
-          boundaryGap: false
-        },
-        yAxis: {
-          show: false
-        },
-        series: [{
-          type: 'line',
-          areaStyle: {
-            color: 'rgba(95, 187, 255, 0.5)'
-          },
-          lineStyle: {
-            // width: 0
-            color: 'rgb(95, 187, 255)'
-          },
-          itemStyle: {
-            opacity: 0
-          },
-          smooth: true,
-          data: [100, 150, 200, 250, 200, 150, 100, 50, 100, 150]
-        }],
-        grid: {
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0
-        }
-      },
-      tableData: [
-        { id: 1, rank: 1, keyword: '深圳', count: 100, users: 90, range: '96%' },
-        { id: 2, rank: 2, keyword: '广州', count: 100, users: 90, range: '96%' },
-        { id: 3, rank: 3, keyword: '赣州', count: 100, users: 90, range: '96%' },
-        { id: 4, rank: 4, keyword: '南阳', count: 100, users: 90, range: '96%' }
-      ],
+      searchUserOption: {},
+      searchNumberOption: {},
       redioSelect: '品类',
-      categoryOption: {}
+      categoryOption: {},
+      tableData: [
+        // { id: 1, rank: 1, keyword: '深圳', count: 100, users: 90, range: '96%' },
+        // { id: 2, rank: 2, keyword: '广州', count: 100, users: 90, range: '96%' },
+        // { id: 3, rank: 3, keyword: '赣州', count: 100, users: 90, range: '96%' },
+        // { id: 4, rank: 4, keyword: '南阳', count: 100, users: 90, range: '96%' }
+      ],
+      totalData: [],
+      total: 0,
+      pageSize: 4,
+      userCount: '', // 搜索用户数
+      searchCount: '' // 搜索量
     }
   },
+  watch: {
+    // wordcloudData () {
+    //   console.log('watch', this.wordcloudData)
+    // }
+  },
   mounted () {
+    this.initData()
     this.renderPieChart()
   },
   methods: {
+    initData () {
+      let userCount = 0
+      let searchCount = 0
+      this.wordcloudData.forEach((item, index) => {
+        userCount += item.user
+        searchCount += item.count
+        this.totalData.push({
+          id: index + 1,
+          rank: index + 1,
+          keyword: item.word,
+          users: item.user,
+          count: item.count,
+          range: ((item.user / item.count) * 100).toFixed() + '%'
+        })
+      })
+      // console.log(this.totalData)
+      this.userCount = this.format(userCount)
+      this.searchCount = this.format(searchCount)
+      this.total = this.totalData.length
+      this.renderTable(1)
+      this.renderLineChart()
+    },
+    renderTable (page) {
+      this.tableData = this.totalData.slice((page - 1) * this.pageSize, (page - 1) * this.pageSize + this.pageSize)
+    },
     onPageChange (page) {
-      console.log(page)
+      // console.log(page)
+      this.tableData = this.totalData.slice((page - 1) * this.pageSize, (page - 1) * this.pageSize + this.pageSize)
     },
     renderPieChart () {
       const mockData = [
@@ -260,6 +242,52 @@ export default {
           }
         ]
       }
+    },
+    renderLineChart () {
+      const createOption = (key) => {
+        const data = []
+        const axis = []
+        this.wordcloudData.forEach(item => {
+          data.push(item[key])
+          axis.push(item.word)
+        })
+        return {
+          xAxis: {
+            type: 'category',
+            boundaryGap: false,
+            data: axis
+          },
+          yAxis: {
+            show: false
+          },
+          tooltip: {
+            show: true
+          },
+          series: [{
+            type: 'line',
+            areaStyle: {
+              color: 'rgba(95, 187, 255, 0.5)'
+            },
+            lineStyle: {
+              // width: 0
+              color: 'rgb(95, 187, 255)'
+            },
+            itemStyle: {
+              opacity: 0
+            },
+            smooth: true,
+            data
+          }],
+          grid: {
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0
+          }
+        }
+      }
+      this.searchUserOption = createOption('user')
+      this.searchNumberOption = createOption('count')
     }
   }
 }

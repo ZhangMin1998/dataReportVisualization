@@ -105,11 +105,18 @@ export default {
       return wrapperArray(this.reportData, 'userRank')
     },
 
+    // 热门搜索数据
     wordcloudData () {
       return this.wordcloudDataFn()
     },
     mapData () {
       return this.mapDataFn()
+    }
+  },
+  methods: {
+    format (value) {
+      const reg = /\d{1,3}(?=(\d{3})+$)/g
+      return `${value}`.replace(reg, '$&,')
     }
   }
 }
