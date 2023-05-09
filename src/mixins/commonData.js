@@ -105,10 +105,21 @@ export default {
       return wrapperArray(this.reportData, 'userRank')
     },
 
+    // //////////////////////////////////////////////////////////////  第三行
     // 热门搜索数据
     wordcloudData () {
       return this.wordcloudDataFn()
     },
+    // 分类数据
+    category1 () {
+      return this.reportData && this.reportData.category.data1
+    },
+    // 商品数据
+    category2 () {
+      return this.reportData && this.reportData.category.data2
+    },
+
+    // //////////////////////////////////////////////////////////////  第四行
     mapData () {
       return this.mapDataFn()
     }
