@@ -1,13 +1,13 @@
 <template>
   <div class="TotalOrders">
-    <CommonCard title="累计订单量" value="2,157,420">
+    <CommonCard title="累计订单量" :value="orderToday">
       <template>
         <v-chart :option="getOptions()"></v-chart>
         <!-- <div id="total-order-chart" :style="{ width: '100%', height: '100%' }"></div> -->
       </template>
       <template #footer>
         <span>昨日订单量 </span>
-        <span class="emphasis">2,000,000</span>
+        <span class="emphasis">{{ orderLastDay }}</span>
       </template>
     </CommonCard>
   </div>
@@ -15,14 +15,26 @@
 
 <script>
 import commonCardMixin from '@/mixins/commonCardMixin'
+import commonData from '@/mixins/commonData'
 // import * as echarts from 'echarts'
 
 export default {
   name: 'TotalOrders',
-  mixins: [commonCardMixin],
+  mixins: [commonCardMixin, commonData],
   data () {
     return {
-      option: {
+      // option: {}
+    }
+  },
+  mounted () {
+    // const chartDom = document.getElementById('total-order-chart')
+    // const chart = this.$echarts.init(chartDom)
+    // chart.setOption(this.option)
+  },
+  methods: {
+    getOptions () {
+      // eslint-disable-next-line
+      return this.orderTrend.length ? {
         title: {
           text: ''
         },
@@ -52,19 +64,10 @@ export default {
             opacity: 0
           },
           smooth: true,
-          data: [620, 432, 220, 534, 790, 430, 220, 320, 532, 320, 834, 690, 530, 220, 630]
+          // data: [620, 432, 220, 534, 790, 430, 220, 320, 532, 320, 834, 690, 530, 220, 630]
+          data: this.orderTrend
         }]
-      }
-    }
-  },
-  mounted () {
-    // const chartDom = document.getElementById('total-order-chart')
-    // const chart = this.$echarts.init(chartDom)
-    // chart.setOption(this.option)
-  },
-  methods: {
-    getOptions () {
-      return this.option
+      } : null
     }
   }
 }

@@ -1,16 +1,16 @@
 <template>
   <div class="TotalSales">
-    <CommonCard title="累计销售额" value="￥ 32,039,165">
+    <CommonCard title="累计销售额" :value="'￥' + salesToday">
       <template>
         <div class="compare-wrapper">
           <div class="compare">
             <span>日同比</span>
-            <span class="emphasis">7.33%</span>
+            <span class="emphasis">{{ salesGrowthLastDay }}</span>
             <div class="incress" />
           </div>
           <div class="compare">
             <span>月同比</span>
-            <span class="emphasis">38.79%</span>
+            <span class="emphasis">{{ salesGrowthLastMonth }}</span>
             <div class="decress"/>
           </div>
         </div>
@@ -18,7 +18,7 @@
       </template>
       <template #footer>
         <span>昨日销售额 </span>
-        <span class="emphasis">￥ 30,000,000</span>
+        <span class="emphasis">{{ '￥' + salesLastDay }}</span>
       </template>
     </CommonCard>
   </div>
@@ -26,10 +26,19 @@
 
 <script>
 import commonCardMixin from '@/mixins/commonCardMixin'
+import commonData from '@/mixins/commonData'
 
 export default {
   name: 'TotalSales',
-  mixins: [commonCardMixin]
+  mixins: [commonCardMixin, commonData],
+  data () {
+    return {
+
+    }
+  },
+  created () {
+    console.log(this.reportData)
+  }
 }
 </script>
 

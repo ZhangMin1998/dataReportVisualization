@@ -1,6 +1,6 @@
 <template>
   <div class="TotalUsers">
-    <CommonCard title="累计用户数" value="1,087,503">
+    <CommonCard title="累计用户数" :value="userToday">
       <template>
         <v-chart :option="getOptions()"></v-chart>
         <!-- <div id="total-users-chart" :style="{ width: '100%', height: '100%' }"></div> -->
@@ -8,10 +8,10 @@
       <template #footer>
         <div class="total-users-footer">
           <span>日同比</span>
-          <span class="emphasis">8.73% </span>
+          <span class="emphasis">{{ userGrowthLastDay }} </span>
           <div class="incress" />
           <span class="month">月同比 </span>
-          <span class="emphasis">35.91% </span>
+          <span class="emphasis">{{ userGrowthLastMonth }} </span>
           <div class="decress" />
         </div>
       </template>
@@ -21,10 +21,11 @@
 
 <script>
 import commonCardMixin from '@/mixins/commonCardMixin'
+import commonData from '@/mixins/commonData'
 
 export default {
   name: 'TotalUsers',
-  mixins: [commonCardMixin],
+  mixins: [commonCardMixin, commonData],
   data () {
     return {
       option: {
@@ -44,23 +45,31 @@ export default {
         },
         series: [{
           type: 'bar',
+          name: '上月平台用户数',
           stack: '总量',
-          data: [200],
+          data: null,
+          // data: [200],
+          // data: [this.userLastMonth], // userTodayNumber userGrowthLastMonth
           barWidth: 10,
           itemStyle: {
             color: '#45c946'
           }
         }, {
           type: 'bar',
+          name: '今日平台用户数',
           stack: '总量',
-          data: [250],
+          data: null,
+          // data: [250],
+          // data: [this.userTodayNumber],
           // barWidth: 10,
           itemStyle: {
             color: '#eee'
           }
         }, {
           type: 'custom',
-          data: [200],
+          data: null,
+          // data: [200],
+          // data: [this.userLastMonth],
           stack: '总量',
           renderItem: (params, api) => {
             const value = api.value(0)
@@ -104,6 +113,10 @@ export default {
     }
   },
   mounted () {
+    this.option.series[0].data = [this.userLastMonth]
+    this.option.series[1].data = [this.userTodayNumber]
+    this.option.series[2].data = [this.userLastMonth]
+    // console.log(this.userLastMonth, this.userTodayNumber)
     // const chartDom = document.getElementById('total-users-chart')
     // const chart = this.$echarts.init(chartDom)
     // chart.setOption(this.option)

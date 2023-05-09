@@ -14,7 +14,11 @@ import BottomView from '../components/BottomView'
 import MapView from '../components/MapView'
 
 // eslint-disable-next-line
-import { getTest, postTest } from '@/api/index'
+// import { getTest, postTest } from '@/api/index'
+// import { wordcloudApi } from '@/api/index'
+import wordclouddata from './data/wordcloudData.json'
+import mapdata from './data/mapdata.json'
+import reportdata from './data/reportdata.json'
 
 export default {
   name: 'HomeView',
@@ -26,16 +30,39 @@ export default {
   },
   data () {
     return {
-
+      reportData: null,
+      wordcloudData: null,
+      mapData: null
     }
   },
+  provide () {
+    return {
+      reportDataFn: () => this.reportData,
+      wordcloudDataFn: () => this.wordcloudData,
+      mapDataFn: () => this.mapData
+    }
+  },
+  created () {
+    // getTest({ a: 1 }).then(res => {
+    //   console.log(res)
+    // }).catch(err => {
+    //   console.log(err)
+    // })
+    this.wordcloudData = wordclouddata
+    this.reportData = reportdata
+    this.mapData = mapdata
+    // wordcloudApi().then(res => {
+    //   console.log(res)
+    // }).catch(err => {
+    //   console.log(err)
+    // }).finally(() => {
+    // })
+  },
   mounted () {
-    getTest({ a: 1 }).then(res => {
-      console.log(res)
-    }).catch(err => {
-      console.log(err)
-    })
-    // postTest({ a: 1 })
+
+  },
+  methods: {
+
   }
 }
 </script>

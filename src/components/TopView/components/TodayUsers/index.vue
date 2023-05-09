@@ -1,13 +1,13 @@
 <template>
   <div class="TodayUsers">
-    <CommonCard title="今日交易用户数" value="81,014">
+    <CommonCard title="今日交易用户数" :value="orderUser">
       <template>
         <v-chart :option="getOptions()"></v-chart>
         <!-- <div id="today-users-chart" :style="{ width: '100%', height: '100%' }"></div> -->
       </template>
       <template #footer>
         <span>退货率 </span>
-        <span class="emphasis">5.14%</span>
+        <span class="emphasis">{{ returnRate }}</span>
       </template>
     </CommonCard>
   </div>
@@ -15,13 +15,25 @@
 
 <script>
 import commonCardMixin from '@/mixins/commonCardMixin'
+import commonData from '@/mixins/commonData'
 
 export default {
   name: 'TodayUsers',
-  mixins: [commonCardMixin],
+  mixins: [commonCardMixin, commonData],
   data () {
     return {
-      option: {
+      // option: {}
+    }
+  },
+  mounted () {
+    // const chartDom = document.getElementById('today-users-chart')
+    // console.log(this.$echarts)
+    // const chart = this.$echarts.init(chartDom)
+    // chart.setOption(this.option)
+  },
+  methods: {
+    getOptions () {
+      return {
         title: {
           text: ''
         },
@@ -38,7 +50,8 @@ export default {
           show: false,
           type: 'category',
           // boundaryGap: false, // 默认距离x轴的距离 false极限拉伸
-          data: ['00:00', '01:00', '02:00', '03:00', '04:00', '05:00', '06:00', '07:00', '08:00', '09:00', '10:00', '11:00', '12:00', '13:00']
+          data: this.orderUserTrendAxis
+          // data: ['00:00', '01:00', '02:00', '03:00', '04:00', '05:00', '06:00', '07:00', '08:00', '09:00', '10:00', '11:00', '12:00', '13:00']
         },
         yAxis: {
           show: false
@@ -46,20 +59,10 @@ export default {
         series: [{
           type: 'bar',
           barWidth: '60%',
-          data: [410, 82, 200, 334, 390, 330, 220, 150, 82, 200, 134, 290, 330, 150]
+          // data: [410, 82, 200, 334, 390, 330, 220, 150, 82, 200, 134, 290, 330, 150]
+          data: this.orderUserTrend
         }]
       }
-    }
-  },
-  mounted () {
-    // const chartDom = document.getElementById('today-users-chart')
-    // console.log(this.$echarts)
-    // const chart = this.$echarts.init(chartDom)
-    // chart.setOption(this.option)
-  },
-  methods: {
-    getOptions () {
-      return this.option
     }
   }
 }
