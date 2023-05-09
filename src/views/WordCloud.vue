@@ -6,8 +6,10 @@
 
 <script>
 import 'echarts-wordcloud'
+import commonData from '@/mixins/commonData'
 // 词云图官网 https://github.com/ZhangMin1998/echarts-wordcloud
 export default {
+  mixins: [commonData],
   data () {
     return {
       option: {
@@ -62,6 +64,18 @@ export default {
             value: Math.random() * 100
           }, {
             name: '奶茶',
+            value: Math.random() * 100
+          }, {
+            name: '小龙虾',
+            value: Math.random() * 100
+          }, {
+            name: '臭豆腐',
+            value: Math.random() * 100
+          }, {
+            name: '手抓饭',
+            value: Math.random() * 100
+          }, {
+            name: '蛋挞',
             value: Math.random() * 100
           }]
         }]

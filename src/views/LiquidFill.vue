@@ -6,10 +6,13 @@
 
 <script>
 import 'echarts-liquidfill'
+import commonData from '@/mixins/commonData'
 // 水球图官网 https://github.com/ecomfe/echarts-liquidfill#change-text
 export default {
+  mixins: [commonData],
   data () {
     return {
+      data: null,
       option: {
         series: [{
           type: 'liquidFill',
@@ -43,12 +46,14 @@ export default {
               shadowColor: '#fff'
             }
           },
-          data: [0.66]
+          data: [0]
         }]
       }
     }
   },
   mounted () {
+    // console.log(this.userGrowthMonth, (Number(this.userGrowthMonth) / 100).toFixed(4))
+    this.option.series[0].data[0] = [(Number(this.userGrowthMonth) / 100).toFixed(4)]
     this.option.series[0].color = [this.getColor(this.option.series[0].data[0])]
   },
   methods: {

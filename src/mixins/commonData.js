@@ -122,6 +122,10 @@ export default {
     // //////////////////////////////////////////////////////////////  第四行
     mapData () {
       return this.mapDataFn()
+    },
+    // 用户月同比增长
+    userGrowthMonth () {
+      return this.reportData && this.reportData.userGrowthLastMonth
     }
   },
   methods: {

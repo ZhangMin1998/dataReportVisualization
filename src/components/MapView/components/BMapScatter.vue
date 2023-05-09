@@ -4,6 +4,7 @@
 
 <script>
 import 'echarts/extension/bmap/bmap' // 引入 echarts 的 bmap 扩展，否则将不能识别 bmap 属性
+import commonData from '@/mixins/commonData'
 
 const testPoint = [{
   name: '广州',
@@ -411,10 +412,10 @@ const geoCoordMap = {
   '大庆': [125.03, 46.58]
 }
 // 源数据处理
-const convertData = function(data) {
+const convertData = function(data, geo) {
   const res = []
   for (let i = 0; i < data.length; i++) {
-    const geoCoord = geoCoordMap[data[i].name]
+    const geoCoord = geo[data[i].name]
     if (geoCoord) {
       res.push({
         name: data[i].name,
@@ -427,12 +428,14 @@ const convertData = function(data) {
 
 export default {
   name: 'BMap',
+  mixins: [commonData],
   data () {
     return {
       option: {}
     }
   },
   mounted () {
+    console.log(this.mapData)
     this.option = {
       title: {
         text: '外卖销售数据大盘（张敏-前端开发工程师）',
@@ -553,7 +556,7 @@ export default {
         name: '销售额',
         type: 'scatter', // 散点图    effectScatter
         coordinateSystem: 'bmap', // 坐标系统
-        data: convertData(data), // 数据源
+        data: convertData(this.mapData.data, this.mapData.geo), // 数据源
         encode: {
           value: 2 // [114.771509, 25.669915, 80]  0 1 2
         },
@@ -579,9 +582,9 @@ export default {
         type: 'effectScatter', // 散点图动态    effectScatter
         coordinateSystem: 'bmap', // 坐标系统
         // data: testPoint2, // 数据源
-        data: convertData(data.sort(function(a, b) {
+        data: convertData(this.mapData.data.sort(function(a, b) {
           return b.value - a.value // 倒叙
-        }).slice(0, 6)),
+        }).slice(0, 6), this.mapData.geo),
         symbolSize: function(val) {
           return val[2] / 10
         },
