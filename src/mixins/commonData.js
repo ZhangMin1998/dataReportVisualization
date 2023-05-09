@@ -2,9 +2,9 @@ export default {
   inject: ['reportDataFn', 'wordcloudDataFn', 'mapDataFn'],
   computed: {
     reportData () {
-      console.log(this.reportDataFn())
       return this.reportDataFn()
     },
+    // //////////////////////////////////////////////////////////////  第一行
     // 累计销售额
     salesToday () {
       return wrapperNumber(this.reportData, 'salesToday')
@@ -76,6 +76,33 @@ export default {
     // 今日平台用户数
     userTodayNumber () {
       return this.reportData && this.reportData.userToday
+    },
+
+    // //////////////////////////////////////////////////////////////  第二行
+    // 年度销售额
+    orderFullYear () {
+      return wrapperArray(this.reportData, 'orderFullYear')
+    },
+    // 年度销售额X轴
+    orderFullYearAxis () {
+      return wrapperArray(this.reportData, 'orderFullYearAxis')
+    },
+    // 访问量
+    userFullYear () {
+      return wrapperArray(this.reportData, 'userFullYear')
+    },
+    // 访问量X轴
+    userFullYearAxis () {
+      return wrapperArray(this.reportData, 'userFullYearAxis')
+    },
+
+    // 年度销售额排行榜
+    orderRank () {
+      return wrapperArray(this.reportData, 'orderRank')
+    },
+    // 访问量排行榜
+    userRank () {
+      return wrapperArray(this.reportData, 'userRank')
     },
 
     wordcloudData () {

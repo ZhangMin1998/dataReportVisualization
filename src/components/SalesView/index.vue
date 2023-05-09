@@ -48,8 +48,11 @@
 </template>
 
 <script>
+import commonData from '@/mixins/commonData'
+
 export default {
   name: 'SalesView',
+  mixins: [commonData],
   data () {
     return {
       activeIndex: '1',
@@ -87,47 +90,74 @@ export default {
           }
         }]
       },
-      rankData: [
-        {
-          no: 1,
-          name: '塔斯汀',
-          money: '323,234'
-        },
-        {
-          no: 2,
-          name: '肯德基',
-          money: '323,234'
-        },
-        {
-          no: 3,
-          name: '必胜客',
-          money: '323,234'
-        },
-        {
-          no: 4,
-          name: '赛百味',
-          money: '323,234'
-        },
-        {
-          no: 5,
-          name: '麦当劳',
-          money: '323,234'
-        },
-        {
-          no: 6,
-          name: '牛耕记',
-          money: '323,234'
-        },
-        {
-          no: 7,
-          name: '华莱士',
-          money: '323,234'
-        }
-      ],
-      option: {
+      // rankData: [
+      //   {
+      //     no: 1,
+      //     name: '塔斯汀',
+      //     money: '323,234'
+      //   },
+      //   {
+      //     no: 2,
+      //     name: '肯德基',
+      //     money: '323,234'
+      //   },
+      //   {
+      //     no: 3,
+      //     name: '必胜客',
+      //     money: '323,234'
+      //   },
+      //   {
+      //     no: 4,
+      //     name: '赛百味',
+      //     money: '323,234'
+      //   },
+      //   {
+      //     no: 5,
+      //     name: '麦当劳',
+      //     money: '323,234'
+      //   },
+      //   {
+      //     no: 6,
+      //     name: '牛耕记',
+      //     money: '323,234'
+      //   },
+      //   {
+      //     no: 7,
+      //     name: '华莱士',
+      //     money: '323,234'
+      //   }
+      // ],
+      option: {}
+    }
+  },
+  watch: {
+    // orderFullYear () {
+    //   console.log(666666)
+    //   this.render(this.orderFullYear, this.orderFullYearAxis, '年度销售额')
+    // },
+    activeIndex () {
+      this.activeIndex === '1' ? this.render(this.orderFullYear, this.orderFullYearAxis, '年度销售额') : this.render(this.userFullYear, this.userFullYearAxis, '年度用户访问量')
+    }
+  },
+  computed: {
+    rankData () {
+      console.log(999999)
+      return this.activeIndex === '1' ? this.orderRank : this.userRank
+    }
+  },
+  created () {
+    this.render(this.orderFullYear, this.orderFullYearAxis, '年度销售额')
+    // console.log(this.orderFullYear, this.orderFullYearAxis)
+  },
+  methods: {
+    onMenuSelect (index) {
+      this.activeIndex = index
+    },
+    render (data, axis, title) {
+      this.option = {
         color: '#3398DB',
         title: {
-          text: '年度销售额',
+          text: title,
           textStyle: {
             fontSize: 12,
             color: '#666'
@@ -158,7 +188,7 @@ export default {
               color: '#999'
             }
           },
-          data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月']
+          data: axis
         },
         yAxis: {
           axisLine: {
@@ -177,14 +207,9 @@ export default {
         series: [{
           type: 'bar',
           barWidth: '35%',
-          data: [400, 70, 180, 350, 380, 200, 250, 300, 350, 300, 400, 250]
+          data: data
         }]
       }
-    }
-  },
-  methods: {
-    onMenuSelect (index) {
-      this.activeIndex = index
     }
   }
 }
